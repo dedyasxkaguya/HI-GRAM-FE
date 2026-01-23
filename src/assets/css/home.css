@@ -17,6 +17,14 @@
 .dropdown-toggle::after{
     display: none !important;
 }
+.big-profile-images{
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    max-width: 16dvw;
+}
+.flag-image-preview{
+    height: 5dvh;
+}
 @media (min-width: 768px) {
   .fs-md-6 {
     font-size: 1rem !important; /* Ukuran fs-6 */

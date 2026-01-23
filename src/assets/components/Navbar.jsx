@@ -13,20 +13,18 @@ const Navbar = () => {
                     const fetch_user = data.data
                     if (user !== 'null blyat') {
                         setUser(fetch_user)
-                        console.log(user)
                     }
                 })
         }
     }, [])
     const location = useLocation().pathname
-    console.log(location.includes('post'))
     return (
-        <nav className="py-4">
+        <nav className="py-2">
             <div className="col-10 d-flex justify-content-between align-items-center mx-auto">
-                {!location.includes('post') && (
+                {location.includes('home') && (
                     <span className='fw-semibold'>Welcome to HI-Galery</span>
                 )}
-                {location.includes('post') && (
+                {!location.includes('home') && (
                     <Link to={uuid ? `/${uuid}` : '/ '} className='text-decoration-none btn btn-light'>
                         <i className=' bi bi-chevron-left'></i>
                         <span className='fw-semibold'>Back to home</span>
@@ -46,15 +44,15 @@ const Navbar = () => {
                             </Link>
                         </div> */}
                         <div className="pages d-none align-items-center gap-2 gap-md-4 d-md-flex">
-                            <Link to={''} className='text-decoration-none btn btn-link'>
+                            <Link to={uuid ? `/${uuid}/trending` : '/trending'} className='text-decoration-none btn btn-link'>
                                 <i className='bi bi-arrow-up me-2'></i>
                                 Trending
                             </Link>
-                            <Link to={''} className='text-decoration-none btn btn-link'>
+                            <Link to={uuid ? `/${uuid}/search` : '/search'} className='text-decoration-none btn btn-link'>
                                 <i className='bi bi-search me-2'></i>
                                 Search
                             </Link>
-                            <Link to={''} className='text-decoration-none btn btn-link'>
+                            <Link to={uuid ? `/${uuid}/` : '/'} className='text-decoration-none btn btn-link'>
                                 <i className='bi bi-patch-check-fill me-2'></i>
                                 Following
                             </Link>

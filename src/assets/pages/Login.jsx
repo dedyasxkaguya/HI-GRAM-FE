@@ -37,7 +37,7 @@ const Login = () => {
                         toast: true
                     })
                     setTimeout(() => {
-                        location.href = `/${fetched.data.slug}`
+                        location.href = `/${fetched.data.slug}/home`
                     }, 2000);
                 } else {
                     Swal.fire({

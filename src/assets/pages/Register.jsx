@@ -49,7 +49,7 @@ const Register = () => {
                     toast:true
                 })
                 setTimeout(() => {
-                    location.href=`/${fetched.slug}`
+                    location.href=`/${fetched.slug}/home`
                 }, 3000);
             })
             .catch(e=>{
