@@ -1,0 +1,38 @@
+// 1. Override variabel warna (Ini Benar)
+// $primary: #1299f1;
+
+// 2. Definisikan nilai custom
+$custom-height: 50dvh;
+$full-height: 100dvh;
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+$font-sizes: map-merge(
+  $font-sizes, 
+  (
+  7:12px,
+  8:10px,
+  9:8px,
+  10:6px
+  )
+);
+// 3. Import fungsi dan variabel inti Bootstrap (WAJIB sebelum map-merge)
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// 4. Tambahkan ke Utility API agar jadi class CSS (misal: .h-50dvh)
+
+
+$utilities: map-merge($utilities,
+    ("height-dvh": (property: height,
+        class: h,
+        values: (50dvh: $custom-height,
+          100dvh: $full-height )),
+      "width-dvw": (property: width,
+        class: w,
+        values: (50dvw: 50dvw))));
+
+// 5. Terakhir, import sisa Bootstrap
+@import "bootstrap/scss/bootstrap";

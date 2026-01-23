@@ -1,0 +1,30 @@
+.raleway{
+    font-family: 'Raleway';
+}
+
+.post-image{
+    aspect-ratio: 4/5;
+}
+
+.profile-image{
+    aspect-ratio: 1/1;
+    max-width: 1.6rem;
+}
+.flag-image{
+    max-width: 6dvh;
+    /* object-fit: contain; */
+}
+.dropdown-toggle::after{
+    display: none !important;
+}
+@media (min-width: 768px) {
+  .fs-md-6 {
+    font-size: 1rem !important; /* Ukuran fs-6 */
+  }
+}
+/* .post-username{
+    position:relative;
+    bottom: 4.8dvh;
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(4px);
+} */

@@ -1,0 +1,26 @@
+.post-image-single{
+    aspect-ratio: 5/4 !important;
+    min-height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+.max-50-post{
+    max-height: 50dvh;
+}
+.profile-image-post{
+    aspect-ratio: 1/1;
+    max-width: 1.6rem;
+}
+.profile-image-post-small{
+    aspect-ratio: 1/1;
+    max-width: 1.2rem;
+}
+.comment-box-dekstop{
+    max-height:48dvh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+.max-blyat{
+    min-height: 72dvh;
+    max-height: 72dvh;
+}
