@@ -6,11 +6,23 @@ import Navbar from '../components/Navbar'
 const Home = () => {
     const [data, setData] = useState([])
     const { uuid } = useParams()
+    const token = localStorage.getItem('token')
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/posts')
             .then(data => {
                 const fetched = data.data
                 setData(fetched)
+            })
+        axios.get('http://127.0.0.1:8000/api/user/account',{
+            headers:{
+                Authorization:`Bearer ${token}`,
+                Accept:'application/json'
+            }
+        })
+            .then(data => {
+                const fetched = data.data
+                // setData(fetched)
+                console.log(fetched)
             })
     }, [])
     return (

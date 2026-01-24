@@ -27,6 +27,7 @@ const Login = () => {
             .then(data => {
                 const fetched = data.data
                 console.log(fetched)
+                localStorage.setItem('token',fetched.access_token)
                 if (fetched.status) {
                     Swal.fire({
                         icon: 'success',
@@ -37,7 +38,7 @@ const Login = () => {
                         toast: true
                     })
                     setTimeout(() => {
-                        location.href = `/${fetched.data.slug}/home`
+                        location.href = `/home`
                     }, 2000);
                 } else {
                     Swal.fire({
@@ -73,7 +74,7 @@ const Login = () => {
                         )}
                     </div>
                     <div className={`form-floating mb-2`}>
-                        <input type="password" className={`form-control`} id="password"
+                        <input type="text" className={`form-control`} id="password"
                             placeholder="Username" required />
                         <label htmlFor="floatingInputGroup3">
                             <i className='bi bi-lock me-2'></i>

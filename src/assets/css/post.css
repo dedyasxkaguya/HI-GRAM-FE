@@ -1,7 +1,7 @@
 .post-image-single{
     aspect-ratio: 5/4 !important;
     min-height: 100%;
-    width: auto;
+    width: 100%;
     object-fit: cover;
 }
 .max-50-post{

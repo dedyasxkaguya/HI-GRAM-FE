@@ -9,8 +9,14 @@ const Profile = () => {
     const [flag, setFlag] = useState(false)
     const [nation, setNation] = useState([])
     const { uuid } = useParams()
+    const token = localStorage.getItem('token')
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/user/${uuid}/all`)
+        axios.get(`http://127.0.0.1:8000/api/user/${uuid}/all`,{
+            headers:{
+                Authorization : `Bearer ${token}`,
+                Accept : 'application/json'
+            }
+        })
             .then(data => {
                 const fetched = data.data
                 setUser(fetched)
@@ -157,8 +163,8 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-12">
-                        <div className="row row-cols-2 row-cols-md-4 row-cols-lg-5">
+                    <div className="p-4 col-12">
+                        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4">
                             {user?.post?.map((d) => {
                                 return (
                                     <div className='col py-2' key={d.id}>

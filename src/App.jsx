@@ -10,18 +10,20 @@ import Profile from './assets/pages/Profile'
 const App = () => {
   return (
     <Routes>
+      <Route path='/' element={<Login/>}></Route>
       <Route path='/home' element={<Home/>}></Route>
+      <Route path='/profile' element={<Profile/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/search' element={<Search/>}></Route>
       <Route path='/trending' element={<Trending/>}></Route>
       <Route path='/post/:post' element={<Post/>}></Route>
       {/* WITH ACCOUNT */}
-      <Route path='/:uuid/home' element={<Home/>}></Route>
+      {/* <Route path='/:uuid/home' element={<Home/>}></Route>
       <Route path='/:uuid/profile' element={<Profile/>}></Route>
       <Route path='/:uuid/search' element={<Search/>}></Route>
       <Route path='/:uuid/trending' element={<Trending/>}></Route>
-      <Route path='/:uuid/post/:post' element={<Post/>}></Route>
+      <Route path='/:uuid/post/:post' element={<Post/>}></Route> */}
     </Routes>
   )
 }
