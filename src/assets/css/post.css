@@ -34,3 +34,24 @@
     min-height: 72dvh;
     max-height: 72dvh;
 }
+
+#commentFloat{
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: 48dvh;
+    min-height: fit-content;
+}
+#commentFloat #box{   
+    height: 38dvh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+@media (max-width:768px) {
+    #commentFloat{
+        min-width: 80dvw;
+    }
+    #commentFloat .profile-image-post{
+        min-width: 8dvw;
+    }
+}

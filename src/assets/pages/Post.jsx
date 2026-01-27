@@ -203,7 +203,7 @@ const Post = () => {
                                 </>
                             )}
                         </div>
-                        <div className="comment-box-dekstop pb-2">
+                        <div id='commentDeks' className="comment-box-dekstop pb-2">
                             <div className="p-2">
                                 <img src={`http://127.0.0.1:8000/${data?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post-small me-2 object-fit-cover' />
                                 <span className='fw-semibold'>@{data?.user?.username}</span>

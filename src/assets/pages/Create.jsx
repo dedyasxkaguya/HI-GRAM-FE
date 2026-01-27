@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
 import '../css/post.css'
+import Swal from 'sweetalert2'
 const Create = () => {
     const [user, setUser] = useState()
     const [categories, setCategory] = useState([])
@@ -31,12 +32,18 @@ const Create = () => {
         setImage(URL.createObjectURL(img[0]))
     }
     const handlePost = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Wait a second...',
+            text: 'Fetching our API',
+            showConfirmButton: false,
+            toast: true
+        })
         const title = document.getElementById('title').value
         const caption = document.getElementById('caption').value
         const category_id = document.getElementById('category').value
         const imageElem = document.getElementById('image').files[0]
         if (title && caption && category_id && imageElem) {
-
             const formdata = new FormData()
             formdata.append('title', title)
             formdata.append('caption', caption)
@@ -53,6 +60,19 @@ const Create = () => {
                 .then(data => {
                     const fetched = data.data
                     console.log(fetched)
+                    if (fetched.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'success',
+                            text: 'Your post is created',
+                            footer: 'redirecting in 2s',
+                            showConfirmButton: false,
+                            toast: true
+                        })
+                        setTimeout(() => {
+                            location.href = '/home'
+                        }, 2560);
+                    }
                 })
         } else {
             console.log('nga')
@@ -68,9 +88,9 @@ const Create = () => {
                 <p className='fs-4 m-0 fw-semibold'>Create a new Post</p>
                 <p className='fs-6 m-0 fw-light'>Express yourself with art into HI-gallery</p>
                 <div className="d-flex flex-column gap-2 mt-4">
-                    <img src={image ? image : '/vite.svg'} alt="" className='post-image-single rounded-4 w-50' />
-                    <input type="text" placeholder='Add a title' className='form-control' id='title'/>
-                    <input type="text" placeholder='Add a caption' className='form-control' id='caption'/>
+                    <img src={image ? image : 'https://placehold.co/600x400?text=add%20an%20image'} alt="" className='post-image-single rounded-4 w-50' />
+                    <input type="text" placeholder='Add a title' className='form-control' id='title' />
+                    <input type="text" placeholder='Add a caption' className='form-control' id='caption' />
                     <select name="" id="category" className='form-select'>
                         <option defaultValue value="default" hidden>Select a category</option>
                         {categories.map((c) => {
@@ -80,7 +100,7 @@ const Create = () => {
                         })}
                     </select>
                     <input type="file" name="" id="image" accept='image/*' className='form-control' onChange={(e) => handleImage(e)} />
-                    <button type="button" className='btn btn-primary' onClick={()=>handlePost()}>Post</button>
+                    <button type="button" className='btn btn-primary' onClick={() => handlePost()}>Post</button>
                 </div>
             </form>
         </>

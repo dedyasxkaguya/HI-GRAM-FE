@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './assets/pages/Home'
-import Post from './assets/pages/Post'
+import Post from './assets/pages/v2/Post'
 import Login from './assets/pages/Login'
 import Register from './assets/pages/Register'
 import Search from './assets/pages/Search'
