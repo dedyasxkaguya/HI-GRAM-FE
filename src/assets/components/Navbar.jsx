@@ -31,7 +31,7 @@ const Navbar = () => {
             confirmButtonText: 'Yes im sure',
         }).then(res => {
             if (res.isConfirmed) {
-                axios.post(`http://127.0.0.1:8000/api/user/logout`, {} , {
+                axios.post(`http://127.0.0.1:8000/api/user/logout`, {}, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: 'application/json'
@@ -52,7 +52,13 @@ const Navbar = () => {
                 {location.includes('home') && (
                     <span className='fw-semibold'>Welcome to HI-Galery</span>
                 )}
-                {!location.includes('home') && (
+                {location.includes('profile/follow') && (
+                    <Link to={'/profile'} className='text-decoration-none btn btn-light'>
+                        <i className=' bi bi-chevron-left'></i>
+                        <span className='fw-semibold'>Back</span>
+                    </Link>
+                )}
+                {!location.includes('home') && !location.includes('profile/follow') && (
                     <Link to={'/home'} className='text-decoration-none btn btn-light'>
                         <i className=' bi bi-chevron-left'></i>
                         <span className='fw-semibold'>Back to home</span>
@@ -92,7 +98,7 @@ const Navbar = () => {
                             </button>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to={'/profile'}><i className='bi bi-person me-2'></i>Profile</Link></li>
-                                <li><Link className="dropdown-item" to={'/'}><i className='bi bi-plus-square me-2'></i>Post</Link></li>
+                                <li><Link className="dropdown-item" to={'/create'}><i className='bi bi-plus-square me-2'></i>Post</Link></li>
                                 <li><Link className="dropdown-item" to={'/'}><i className='bi bi-heart me-2'></i>Favorite</Link></li>
                                 <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-arrow-up me-2'></i>Trending</Link></li>
                                 <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-search me-2'></i>Search</Link></li>

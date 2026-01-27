@@ -1,11 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import '../css/home.css'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 const Home = () => {
     const [data, setData] = useState([])
-    const { uuid } = useParams()
     const token = localStorage.getItem('token')
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/posts')
@@ -53,7 +52,7 @@ const Home = () => {
                                                 #{d.category?.name}
                                             </Link>
                                         </div>
-                                        <Link to={uuid ? `/${uuid}/post/${d.slug}` : `/post/${d.slug}`}
+                                        <Link to={`/post/${d.slug}`}
                                             className='text-truncate w-100 pe-2 text-decoration-none text-black fs-7 fs-md-6'>
                                             <span className='fw-semibold'>@{d.user?.username}</span>
                                             <span className='fw-light'> {d.title}</span>

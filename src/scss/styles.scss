@@ -28,8 +28,10 @@ $font-sizes: map-merge(
 $utilities: map-merge($utilities,
     ("height-dvh": (property: height,
         class: h,
-        values: (50dvh: $custom-height,
-          100dvh: $full-height )),
+        values: (
+          50dvh: $custom-height,
+          100dvh: $full-height ,
+          10dvh : 10dvh )),
       "width-dvw": (property: width,
         class: w,
         values: (50dvw: 50dvw))));

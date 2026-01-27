@@ -1,30 +1,74 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
 import '../css/home.css'
 import { Link, useParams } from 'react-router-dom'
+import Followbase from '../components/Followbase'
 const Search = () => {
+    const [user, setUser] = useState(false)
     const [name, setName] = useState('')
     const [data, setData] = useState([])
+    const [userList, setUserList] = useState([])
     const [isNull, setNull] = useState(false)
     const [loading, setLoading] = useState()
     const { uuid } = useParams()
+
+    const token = localStorage.getItem('token')
+
     const handleChange = (e) => {
         setName(e.target.value)
     }
-    const handleSearch = () => {
-        setLoading(true)
-        axios.get(`http://127.0.0.1:8000/api/post/search/${name}`)
-            .then(data => {
-                const fetched = data.data
-                setData(fetched)
-                setLoading(false)
-                if(fetched.length<1){
-                    setNull(true)
-                }else{
-                    setNull(false)
+
+    useEffect(() => {
+        if (token) {
+            axios.get(`http://127.0.0.1:8000/api/user/account`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
                 }
             })
+                .then(data => {
+                    const fetch_user = data.data
+                    setUser(fetch_user)
+                })
+        }
+    }, [])
+
+    const handleSearch = () => {
+        if(name.length<1){
+            return
+        }
+        setLoading(true)
+        if (name.includes('@')) {
+            let nameSearch = name.replaceAll('@', '')
+            console.log(`http://127.0.0.1:8000/api/user/search/${nameSearch}`)
+            axios.get(`http://127.0.0.1:8000/api/user/search/${nameSearch}`)
+                .then(data => {
+                    const fetched = data.data
+                    console.log(fetched)
+                    setUserList(fetched)
+                    // setData(fetched.post)
+                    setLoading(false)
+                    if (fetched.length < 1) {
+                        setNull(true)
+                    } else {
+                        setNull(false)
+                    }
+                })
+        } else {
+            axios.get(`http://127.0.0.1:8000/api/post/search/${name}`)
+                .then(data => {
+                    const fetched = data.data
+                    console.log(fetched)
+                    setData(fetched)
+                    setLoading(false)
+                    if (fetched.length < 1) {
+                        setNull(true)
+                    } else {
+                        setNull(false)
+                    }
+                })
+        }
     }
     return (
         <>
@@ -38,7 +82,7 @@ const Search = () => {
                         Search
                     </button>
                 </div>
-                <p>Showing result for {name}</p>
+                {/* <p>Showing result for {name}</p> */}
                 {loading && (
                     <>
                         <span>Wait a minute...</span>
@@ -49,6 +93,17 @@ const Search = () => {
                 {isNull && (
                     <span>Tidak ada postingan dengan judul atau caption <i className='fw-semibold'>{name}</i></span>
                 )}
+                <div className="d-flex justify-content-center align-items-center flex-column">
+
+                {
+                    userList.map(a => {
+                        return (
+                            <Followbase f={a} user={user} />
+                        )
+                    })
+                }
+
+                </div>
                 <div className="row row-cols-lg-4 row-cols-md-3 row-cols-2">
                     {data.map((d) => {
                         return (

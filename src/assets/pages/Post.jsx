@@ -36,9 +36,9 @@ const Post = () => {
                 .then(data => {
                     const fetched = data.data
                     setData(fetched)
+
                     const formdata = new FormData()
                     formdata.append('following_id', fetched.user.id)
-        
                     axios.post('http://127.0.0.1:8000/api/follow/check', formdata , {
                         headers: {
                             Authorization: `Bearer ${token}`,

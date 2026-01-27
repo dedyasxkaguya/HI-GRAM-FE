@@ -1,25 +1,26 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import Followbase from '../components/Followbase'
 
 const Profile = () => {
     const [user, setUser] = useState()
     const [flag, setFlag] = useState(false)
     const [nation, setNation] = useState([])
-    const { uuid } = useParams()
     const token = localStorage.getItem('token')
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/user/${uuid}/all`,{
-            headers:{
-                Authorization : `Bearer ${token}`,
-                Accept : 'application/json'
+        axios.get(`http://127.0.0.1:8000/api/user/account/all`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
             }
         })
             .then(data => {
                 const fetched = data.data
                 setUser(fetched)
+                console.log(fetched)
                 setFlag(false)
             })
         setTimeout(() => {
@@ -82,13 +83,22 @@ const Profile = () => {
                         <span className='text-secondary'>Profile</span> @{user?.username}
                     </div>
                     <img src={`http://127.0.0.1:8000/${user?.profile_image}`} alt="" className='big-profile-images rounded-circle' id='profile' />
-                    <label htmlFor="" className='' style={{ fontSize: '12px' }}>Change your profile picture
-                        <input type="file" name="" id="imageElem" className='form-control' accept='image/*' onChange={(e) => handleProfileImage(e)} />
-                    </label>
-                    <button type="button" className='btn btn-outline-success'>
-                        <i className='bi bi-save me-2'></i>
-                        Save Changes
-                    </button>
+                    <div className=" d-flex justify-content-center gap-2">
+                        <Link type='button' className='btn btn-light fs-7 fw-semibold' to={'/profile/follower'}>Follower {user?.followerCount}</Link>
+                        <Link type='button' className='btn btn-light fs-7 fw-semibold' to={'/profile/following'}>Following  {user?.followingCount}</Link>
+                    </div>
+                    <div className="d-flex gap-2 align-items-end flex-md-column align-items-md-start">
+                        <label htmlFor="" className='' style={{ fontSize: '12px' }}>Change your profile picture
+                            <input type="file" name="" id="imageElem" className='form-control' accept='image/*' onChange={(e) => handleProfileImage(e)} />
+                        </label>
+                        <button type="button" className='btn btn-outline-success'>
+                            <i className='bi bi-save me-2 d-none d-md-inline'></i>
+                                Save 
+                            <span className='d-none d-md-inline ms-md-1'>
+                                 Changes
+                            </span>
+                        </button>
+                    </div>
                     {/* <div className="d-flex gap-2 my-auto flex-column">
                         <button type='button' className='btn btn-danger' onClick={() => handleLogout()}>Logout</button>
                         <button type="button" className='btn btn-outline-danger'>Delete account</button>
@@ -186,7 +196,7 @@ const Profile = () => {
                                                     #{d.category?.name}
                                                 </Link> */}
                                             </div>
-                                            <Link to={uuid ? `/${uuid}/post/${d.slug}` : `/post/${d.slug}`}
+                                            <Link to={`/post/${d.slug}`}
                                                 className='text-truncate w-100 pe-2 text-decoration-none text-black fs-7 fs-md-6'>
                                                 <span className='fw-semibold'>@{d.user?.username}</span>
                                                 <span className='fw-light'> {d.title}</span>

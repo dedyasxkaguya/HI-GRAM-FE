@@ -1,5 +1,5 @@
 .raleway{
-    font-family: 'Raleway';
+    font-family: 'Roboto';
 }
 
 .post-image{
@@ -22,13 +22,33 @@
     object-fit: cover;
     max-width: 16dvw;
 }
+.small-profile-images{
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    max-width: 5.6dvw;
+}
 .flag-image-preview{
     height: 5dvh;
+}
+.follow-box{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(4px);
 }
 @media (min-width: 768px) {
   .fs-md-6 {
     font-size: 1rem !important; /* Ukuran fs-6 */
   }
+}
+@media (max-width:768px){
+    .big-profile-images{
+        max-width: 40dvw;
+    }
+    .small-profile-images{
+        max-width: 16dvw;
+    }
 }
 /* .post-username{
     position:relative;
