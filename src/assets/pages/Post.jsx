@@ -17,7 +17,7 @@ const Post = () => {
     // console.log(slug)
     const token = localStorage.getItem('token')
     useEffect(() => {
-        if (token) {
+        if (token !== null) {
             axios.get(`http://127.0.0.1:8000/api/user/account`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -32,14 +32,17 @@ const Post = () => {
                     }
                 })
 
-            axios.get(`http://127.0.0.1:8000/api/post/${post}`)
-                .then(data => {
-                    const fetched = data.data
-                    setData(fetched)
+        }
+        axios.get(`http://127.0.0.1:8000/api/post/${post}`)
+            .then(data => {
+                const fetched = data.data
+                setData(fetched)
+
+                if (token !== null) {
 
                     const formdata = new FormData()
                     formdata.append('following_id', fetched.user.id)
-                    axios.post('http://127.0.0.1:8000/api/follow/check', formdata , {
+                    axios.post('http://127.0.0.1:8000/api/follow/check', formdata, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                             Accept: 'application/json'
@@ -53,9 +56,10 @@ const Post = () => {
                             setFollow(true)
                         }
                     })
-                })
 
-        }
+                }
+            })
+
     }, [])
 
     const check = (text) => {
@@ -153,24 +157,24 @@ const Post = () => {
         }).then(dataFollow => {
             const fetched = dataFollow.data
             console.log(fetched)
-            if(fetched.status){
+            if (fetched.status) {
                 Swal.fire({
-                    icon:'success',
-                    title:'Congratulation',
-                    text:'You have follow @' +  data?.user?.username , 
-                    toast:true,
-                    showConfirmButton:false
+                    icon: 'success',
+                    title: 'Congratulation',
+                    text: 'You have follow @' + data?.user?.username,
+                    toast: true,
+                    showConfirmButton: false
                 })
                 setTimeout(() => {
                     navigation.reload()
                 }, 1024);
-            }else{
+            } else {
                 Swal.fire({
-                    icon:'success',
+                    icon: 'success',
                     // title:'Its okay',
-                    text:'You have unfollow @' +  data?.user?.username ,
-                    toast:true,
-                    showConfirmButton:false
+                    text: 'You have unfollow @' + data?.user?.username,
+                    toast: true,
+                    showConfirmButton: false
                 })
                 setTimeout(() => {
                     navigation.reload()
@@ -217,7 +221,7 @@ const Post = () => {
                                             <img src={`http://127.0.0.1:8000/${c?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover' />
                                             <div className="m-0 d-flex flex-column">
                                                 <span className='fw-semibold lh-1 fs-7'>@{c.user?.username}
-                                                    {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Pembuat</span> : ''}</span>
+                                                    {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Creator</span> : ''}</span>
                                                 <span className='fw-light lh-base'>{c.comment}</span>
                                                 <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1'>{c.formattedTime}</span>
                                             </div>

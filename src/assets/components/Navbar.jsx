@@ -5,9 +5,10 @@ import '../css/home.css'
 import Swal from 'sweetalert2'
 const Navbar = () => {
     const [user, setUser] = useState(false)
+    const [notif, setNotif] = useState([])
     const token = localStorage.getItem('token')
     useEffect(() => {
-        if (token) {
+        if (token !== null) {
             axios.get(`http://127.0.0.1:8000/api/user/account`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -46,73 +47,120 @@ const Navbar = () => {
             }
         })
     }
+    const handleNotifications = () => {
+        axios.get('http://127.0.0.1:8000/api/user/notification', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(data => {
+                const fetched = data.data
+                setNotif(fetched.notifications)
+                console.log(fetched.notifications)
+            })
+    }
     return (
-        <nav className="py-2">
-            <div className="col-10 d-flex justify-content-between align-items-center mx-auto">
-                {location.includes('home') && (
-                    <span className='fw-semibold'>Welcome to HI-Galery</span>
-                )}
-                {location.includes('profile/follow') && (
-                    <Link to={'/profile'} className='text-decoration-none btn btn-light'>
-                        <i className=' bi bi-chevron-left'></i>
-                        <span className='fw-semibold'>Back</span>
-                    </Link>
-                )}
-                {!location.includes('home') && !location.includes('profile/follow') && (
-                    <Link to={'/home'} className='text-decoration-none btn btn-light'>
-                        <i className=' bi bi-chevron-left'></i>
-                        <span className='fw-semibold'>Back to home</span>
-                    </Link>
-                )}
-                {!user && (
-                    <div className="d-flex gap-2">
-                        <Link to={'/login'} className='btn btn-light shadow-sm'>Login</Link>
-                    </div>
-                )}
-                {user && (
-                    <>
-                        {/* <div className="d-flex gap-2">
+        <>
+            <nav className="py-2">
+                <div className="col-10 d-flex justify-content-between align-items-center mx-auto">
+                    {location.includes('home') && (
+                        <span className='fw-semibold'>Welcome to HI-Galery</span>
+                    )}
+                    {location.includes('profile/follow') && (
+                        <Link to={'/profile'} className='text-decoration-none btn btn-light'>
+                            <i className=' bi bi-chevron-left'></i>
+                            <span className='fw-semibold'>Back</span>
+                        </Link>
+                    )}
+                    {!location.includes('home') && !location.includes('profile/follow') && (
+                        <Link to={'/home'} className='text-decoration-none btn btn-light'>
+                            <i className=' bi bi-chevron-left'></i>
+                            <span className='fw-semibold'>Back to home</span>
+                        </Link>
+                    )}
+                    {!user && (
+                        <div className="d-flex gap-2">
+                            <Link to={'/login'} className='btn btn-light shadow-sm'>Login</Link>
+                        </div>
+                    )}
+                    {user && (
+                        <>
+                            {/* <div className="d-flex gap-2">
                             <Link to={'/'} className='btn btn-light shadow-sm rounded rounded-2'>
                                 <img src={`http://127.0.0.1:8000/${user?.profile_image}`} alt="" className='profile-image rounded-circle me-2' />
                                 <span>@{user?.username}</span>
                             </Link>
                         </div> */}
-                        <div className="pages d-none align-items-center gap-2 gap-md-4 d-md-flex">
-                            <Link to={'/trending'} className='text-decoration-none btn btn-link'>
-                                <i className='bi bi-arrow-up me-2'></i>
-                                Trending
-                            </Link>
-                            <Link to={'/search'} className='text-decoration-none btn btn-link'>
-                                <i className='bi bi-search me-2'></i>
-                                Search
-                            </Link>
-                            <Link to={'/'} className='text-decoration-none btn btn-link'>
-                                <i className='bi bi-patch-check-fill me-2'></i>
-                                Following
-                            </Link>
-                        </div>
-                        <div className="dropdown">
-                            <button className="btn btn-light dropdown-toggle rounded rounded-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={`http://127.0.0.1:8000/${user?.profile_image}`} alt="" className='profile-image rounded-circle me-2' />
-                                <span className='fw-semibold'>@{user?.username}</span>
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to={'/profile'}><i className='bi bi-person me-2'></i>Profile</Link></li>
-                                <li><Link className="dropdown-item" to={'/create'}><i className='bi bi-plus-square me-2'></i>Post</Link></li>
-                                <li><Link className="dropdown-item" to={'/'}><i className='bi bi-heart me-2'></i>Favorite</Link></li>
-                                <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-arrow-up me-2'></i>Trending</Link></li>
-                                <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-search me-2'></i>Search</Link></li>
-                                <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-patch-check me-2'></i>Following</Link></li>
-                                <li className='d-flex justify-content-center'>
-                                    <button type='button' className="btn btn-danger w-75" onClick={() => handleLogout()}>
-                                        <i className='bi bi-box-arrow-left me-2'></i>Logout</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </>
-                )}
+                            <div className="pages d-none align-items-center gap-2 gap-md-4 d-md-flex">
+                                <Link to={'/trending'} className='text-decoration-none btn btn-link'>
+                                    <i className='bi bi-arrow-up me-2'></i>
+                                    Trending
+                                </Link>
+                                <Link to={'/search'} className='text-decoration-none btn btn-link'>
+                                    <i className='bi bi-search me-2'></i>
+                                    Search
+                                </Link>
+                                <Link to={'/'} className='text-decoration-none btn btn-link'>
+                                    <i className='bi bi-patch-check-fill me-2'></i>
+                                    Following
+                                </Link>
+                            </div>
+                            <div className="dropdown">
+                                <button className="btn btn-light dropdown-toggle rounded rounded-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src={`http://127.0.0.1:8000/${user?.profile_image}`} alt="" className='profile-image rounded-circle me-2' />
+                                    <span className='fw-semibold'>@{user?.username}</span>
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to={'/profile'}><i className='bi bi-person me-2'></i>Profile</Link></li>
+                                    <li><Link className="dropdown-item" to={'/create'}><i className='bi bi-plus-square me-2'></i>Post</Link></li>
+                                    <li><Link className="dropdown-item" to={'/'}><i className='bi bi-heart me-2'></i>Favorite</Link></li>
+                                    <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-arrow-up me-2'></i>Trending</Link></li>
+                                    <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-search me-2'></i>Search</Link></li>
+                                    <li><Link className="dropdown-item d-md-none" to={'/'}><i className='bi bi-patch-check me-2'></i>Following</Link></li>
+                                    <li>
+                                        <button className="btn dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" onClick={() => handleNotifications()}>
+                                            <i className="bi bi-inbox me-2"></i>
+                                            Inbox
+                                        </button>
+                                    </li>
+                                    <li className='d-flex justify-content-center'>
+                                        <button type='button' className="btn btn-danger w-75" onClick={() => handleLogout()}>
+                                            <i className='bi bi-box-arrow-left me-2'></i>Logout</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </nav>
+            <div className="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasWithBothOptionsLabel">Your notification</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div className="offcanvas-body d-flex flex-column gap-2">
+                    {notif.map((a) => {
+                        // let icon = a.type == 'COMMENT' ? 'bi bi-chat-left' : a.type == 'LIKE' ? 'bi bi-heart' : 'bi bi-person-add'
+                        return (
+                            <div className='d-flex justify-content-between align-items-center shadow-sm p-2 rounded-4 gap-2' key={a?.id}>
+                                <div className="d-flex gap-2 align-items-center">
+                                    <img src={`http://127.0.0.1:8000/${a?.from?.profile_image}`} alt="" className='inbox-profile-image rounded-circle my-auto' />
+                                    <div className="fs-7">
+                                        <Link to={`/${a.from.username}`} className='fw-semibold text-decoration-none text-black'>@{a.from.username}</Link> {a.body}
+                                        {a.comment ? <div className='fw-light'>{a.comment}</div> : ''}
+                                    </div>
+                                </div>
+                                <div className="">
+                                    <img src={`http://127.0.0.1:8000/${a?.post?.image}`} alt="" className='inbox-image rounded-2 me-2' />
+                                    {/* <i className={icon}></i> */}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
-        </nav>
+        </>
     )
 }
 

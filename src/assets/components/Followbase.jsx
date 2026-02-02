@@ -23,7 +23,6 @@ const Followbase = ({ f, user }) => {
       }
     })
   }, [])
-
   const handleFollow = () => {
     console.log(token)
     const formdata = new FormData()
@@ -55,20 +54,24 @@ const Followbase = ({ f, user }) => {
           toast: true,
           showConfirmButton: false
         })
-        setTimeout(() => {
-          navigation.reload()
-        }, 1024);
+          setTimeout(() => {
+            navigation.reload()
+          }, 1024);
       }
     })
   }
   return (
-    <div className="w-full bg-light rounded-4">
+    <div className="w-100 bg-light rounded-4">
       <div className="d-flex align-items-center my-2 p-2 justify-content-between">
-        <div className="m-0 d-flex align-items-center">
+        <div className="m-0 d-flex align-items-center flex-grow-1">
           <img src={`http://127.0.0.1:8000/${f?.profile_image}`} alt="" className='rounded-circle profile-image-follow me-2 object-fit-cover' />
           <div className="d-flex flex-column">
             <span className='fw-semibold lh-1 fs-6'>@{f.username}</span>
-            <span className='fw-light lh-base fs-5'>{f.name}</span>
+            <span className='fw-light lh-base'>{f.name}</span>
+            {/* <small className='fw-light lh-base text-secondary fs-7'>{f.bio}</small> */}
+            <small className='text-secondary text-truncate bio'>
+              {f.bio}
+            </small>
           </div>
         </div>
         {/* <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1'>{data.formattedTime}</span> */}

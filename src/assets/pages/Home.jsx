@@ -33,33 +33,16 @@ const Home = () => {
                     <div className="row row-cols-lg-4 row-cols-md-3 row-cols-2">
                         {data.map((d) => {
                             return (
-                                <div className='col py-2' key={d.id}>
+                                <Link className='col text-decoration-none ' key={d.id} to={`/post/${d.slug}`}>
                                     <div className=" overflow-hidden">
                                         <img src={`http://127.0.0.1:8000/${d.image}`} alt="" className='rounded-4 post-image object-fit-cover w-100 my-2' />
-                                        {/* <div className="" style={{ backim }}></div> */}
-                                        <div className="d-flex align-items-center justify-content-between fs-8 fs-md-6">
-                                            <div className="d-flex gap-2">
-                                                <span>
-                                                    <i className='bi bi-heart me-2'></i>
-                                                    {d.likeCount}
-                                                </span>
-                                                <span>
-                                                    <i className='bi bi-chat me-2'></i>
-                                                    {d.commentCount}
-                                                </span>
-                                            </div>
-                                            <Link className='text-decoration-none btn btn-sm btn-secondary opacity-50 rounded-5 d-flex align-items-start fs-8 fs-md-6'>
-                                                #{d.category?.name}
-                                            </Link>
-                                        </div>
-                                        <Link to={`/post/${d.slug}`}
-                                            className='text-truncate w-100 pe-2 text-decoration-none text-black fs-7 fs-md-6'>
+                                        <span className='text-truncate w-100 pe-2 text-decoration-none text-black fs-7 fs-md-6'>
                                             <span className='fw-semibold'>@{d.user?.username}</span>
                                             <span className='fw-light'> {d.title}</span>
-                                        </Link>
-                                        <span className='fw-light opacity-75 text-secondary fs-8'>{d.formattedTime}</span>
+                                        </span>
+                                        <p className='fw-light opacity-75 text-secondary fs-8 m-0'>{d.formattedTime}</p>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })}
                     </div>

@@ -10,6 +10,7 @@ import Profile from './assets/pages/v2/Profile'
 import Userfollow from './assets/pages/v2/Userfollow'
 import Create from './assets/pages/Create'
 import Userprofile from './assets/pages/v2/Userprofile'
+import Update from './assets/pages/Update'
 const App = () => {
   return (
     <Routes>
@@ -17,6 +18,7 @@ const App = () => {
       <Route path='/:name' element={<Userprofile/>}></Route>
       <Route path='/home' element={<Home/>}></Route>
       <Route path='/profile' element={<Profile/>}></Route>
+      <Route path='/update' element={<Update/>}></Route>
       <Route path='/create' element={<Create/>}></Route>
       <Route path='/profile/follow' element={<Userfollow/>}></Route>
       {/* <Route path='/profile/:type' element={<Userfollow/>}></Route> */}

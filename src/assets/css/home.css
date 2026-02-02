@@ -37,6 +37,16 @@
     background-color: rgba(255, 255, 255, .6);
     backdrop-filter: blur(4px);
 }
+.inbox-image{
+    max-width: 2.4dvw;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+.inbox-profile-image{
+    max-width: 1.2dvw;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
 @media (min-width: 768px) {
   .fs-md-6 {
     font-size: 1rem !important; /* Ukuran fs-6 */
@@ -48,6 +58,12 @@
     }
     .small-profile-images{
         max-width: 16dvw;
+    }
+    .inbox-image{
+        max-width: 12dvw;
+    }
+    .inbox-profile-image{
+        max-width: 8dvw;
     }
 }
 /* .post-username{

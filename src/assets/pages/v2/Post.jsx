@@ -12,13 +12,14 @@ const Post = () => {
     const [user, setUser] = useState()
     const [isFollow, setFollow] = useState(false)
     const [isLike, setLike] = useState(false)
+    const [isOnline, setOnline] = useState(false)
     const [comment, setComment] = useState()
     const [isComment, setCommentOpen] = useState()
     const { post } = useParams()
     let i = 0
     const token = localStorage.getItem('token')
     useEffect(() => {
-        if (token) {
+        if (token !== null) {
             axios.get(`http://127.0.0.1:8000/api/user/account`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -32,41 +33,41 @@ const Post = () => {
                         console.log(user)
                     }
                 })
-
-            axios.get(`http://127.0.0.1:8000/api/post/${post}`)
-                .then(data => {
-                    const fetched = data.data
-                    setData(fetched)
-                    console.log(fetched.commentCount)
-                    axios.get(`http://127.0.0.1:8000/api/post/like/${fetched.id}/check`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                        .then(data => {
-                            const checkLike = data.data
-                            console.log(checkLike)
-                            setLike(checkLike.status)
-                        })
-                    const formdata = new FormData()
-                    formdata.append('following_id', fetched.user.id)
-                    axios.post('http://127.0.0.1:8000/api/follow/check', formdata, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: 'application/json'
-                        }
-                    }).then(data => {
-                        const fetched_check = data.data
-                        console.log(fetched_check)
-                        if (fetched_check.status) {
-                            setFollow(false)
-                        } else {
-                            setFollow(true)
-                        }
-                    })
-                })
         }
+        axios.get(`http://127.0.0.1:8000/api/post/${post}`)
+            .then(data => {
+                const fetched = data.data
+                setData(fetched)
+                // console.log(fetched)
+                console.log(fetched?.user?.profile_image?.includes('https://') ? setOnline(true) : setOnline(false))
+                axios.get(`http://127.0.0.1:8000/api/post/like/${fetched.id}/check`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(data => {
+                        const checkLike = data.data
+                        console.log(checkLike)
+                        setLike(checkLike.status)
+                    })
+                const formdata = new FormData()
+                formdata.append('following_id', fetched.user.id)
+                axios.post('http://127.0.0.1:8000/api/follow/check', formdata, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    }
+                }).then(data => {
+                    const fetched_check = data.data
+                    console.log(fetched_check)
+                    if (fetched_check.status) {
+                        setFollow(false)
+                    } else {
+                        setFollow(true)
+                    }
+                })
+            })
     }, [])
 
     const check = (text) => {
@@ -106,9 +107,23 @@ const Post = () => {
                     formdata.append('comment', comment)
 
                     axios.post('http://127.0.0.1:8000/api/comment/add', formdata)
-                        .then(data => {
-                            const fetched = data.data
+                        .then(dataF => {
+                            const fetched = dataF.data
                             console.log(fetched)
+                            if (user?.id !== data?.user?.id) {
+                                const formdata0 = new FormData()
+                                formdata0.append('user_id', data?.user?.id)
+                                formdata0.append('post_id', data?.id)
+                                formdata0.append('type', 'COMMENT')
+                                formdata0.append('comment', comment)
+                                formdata0.append('body', 'Comment at your post')
+                                axios.post(`http://127.0.0.1:8000/api/notification/add`, formdata0, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                        Accept: 'application/json'
+                                    }
+                                })
+                            }
                             Swal.fire({
                                 icon: 'success',
                                 title: 'success',
@@ -183,6 +198,16 @@ const Post = () => {
                     toast: true,
                     showConfirmButton: false
                 })
+                const formdata0 = new FormData()
+                formdata0.append('user_id', data?.user?.id)
+                formdata0.append('type', 'FOLLOW')
+                formdata0.append('body', 'Following You')
+                axios.post(`http://127.0.0.1:8000/api/notification/add`, formdata0, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json'
+                    }
+                })
                 setTimeout(() => {
                     navigation.reload()
                 }, 1024);
@@ -210,11 +235,30 @@ const Post = () => {
                 Accept: 'application/json'
             }
         })
-            .then(data => {
-                const fetched = data.data
+            .then(data0 => {
+                const fetched = data0.data
                 console.log(fetched)
                 if (fetched.status || !fetched.status) {
-                    navigation.reload()
+                    if (fetched.status) {
+                        const formdata0 = new FormData()
+                        formdata0.append('user_id', data?.user?.id)
+                        formdata0.append('post_id', data?.id)
+                        formdata0.append('type', 'LIKE')
+                        formdata0.append('body', 'Like your post')
+                        axios.post(`http://127.0.0.1:8000/api/notification/add`, formdata0, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                Accept: 'application/json'
+                            }
+                        })
+                            .then((notif) => {
+                                console.log(notif.data)
+                                // navigation.reload()
+                            })
+                    }
+                    setTimeout(() => {
+                        navigation.reload()
+                    }, 1000);
                 }
             })
         // setTimeout(() => {
@@ -234,7 +278,7 @@ const Post = () => {
                     <div className="col-lg-4 col-10 bg-light rounded-4 my-2 d-flex flex-column justify-content-between">
                         <div className="">
                             <div className="d-flex gap-2 align-items-center text-center px-2">
-                                <img src={`http://127.0.0.1:8000/${data?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post object-fit-cover my-3' />
+                                <img src={`${isOnline ? `${data?.user?.profile_image}` : `http://127.0.0.1:8000/${data?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post object-fit-cover my-3' />
                                 <span className='fw-semibold'>@{data?.user?.username}</span>
                                 {data?.user?.id !== user?.id && (
                                     <>
@@ -262,10 +306,11 @@ const Post = () => {
                                         i++
                                         return (
                                             <div className="d-flex align-items-center my-2">
-                                                <img src={`http://127.0.0.1:8000/${c?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover' />
+                                                <img src={`${isOnline ? `${c?.user?.profile_image}` : `http://127.0.0.1:8000/${c?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover' />
                                                 <div className="m-0 d-flex flex-column">
-                                                    <span className='fw-semibold lh-1 fs-7'>@{c.user?.username}
-                                                        {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Pembuat</span> : ''}</span>
+                                                    <Link className='fw-semibold lh-1 fs-7 text-decoration-none text-black' to={`/${c.user?.username}`}>@{c.user?.username}
+                                                        {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Creator</span> : ''}
+                                                    </Link>
                                                     <span className='fw-light lh-base'>{c.comment}</span>
                                                     <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1'>{c.formattedTime}</span>
                                                 </div>
@@ -274,7 +319,7 @@ const Post = () => {
                                     }
                                 })}
                                 {data?.commentCount > 3 && (
-                                    <a className='' onClick={() => handleCommentOpen()}>Read more comment</a>
+                                    <a className='' style={{ cursor: 'pointer' }} onClick={() => handleCommentOpen()}>Read more comment</a>
                                 )}
                             </div>
                         </div>
@@ -287,11 +332,12 @@ const Post = () => {
                                 <div id="box" className='p-2'>
                                     {data?.comment?.map((c) => {
                                         return (
-                                            <div className="d-flex align-items-center mb-4">
+                                            <div className="d-flex align-items-center mb-4 mx-2">
                                                 <img src={`http://127.0.0.1:8000/${c?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover' />
                                                 <div className="m-0 d-flex flex-column">
-                                                    <span className='fw-semibold lh-1 fs-7'>@{c.user?.username}
-                                                        {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Pembuat</span> : ''}</span>
+                                                    <Link className='fw-semibold lh-1 fs-7 text-decoration-none text-black' to={`/${c.user?.username}`}>@{c.user?.username}
+                                                        {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Creator</span> : ''}
+                                                    </Link>
                                                     <span className='fw-light lh-sm'>{c.comment}</span>
                                                     <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1'>{c.formattedTime}</span>
                                                 </div>
@@ -299,7 +345,7 @@ const Post = () => {
                                         )
                                     })}
                                 </div>
-                                <div className="fs-7 d-flex gap-2 py-2">
+                                <div className="fs-7 d-flex gap-2 py-2 mx-2">
                                     <input type="text" className="form-control w-75" id="" placeholder="Write a comment" onChange={(e) => handleComment(e)} />
                                     <button className='comment-input p-2 w-25 btn btn-outline-primary d-flex justify-content-center align-items-center' onClick={() => handleCommentPost()}>Post</button>
                                 </div>
@@ -311,10 +357,10 @@ const Post = () => {
                                     <i className={`bi me-2 ${isLike ? 'bi-heart-fill text-danger' : 'bi-heart'}`}></i>
                                     {data?.likeCount}
                                 </a>
-                                <span>
+                                <a className='text-decoration-none text-black' style={{ cursor: 'pointer' }} onClick={() => handleCommentOpen()}>
                                     <i className='bi bi-chat me-2'></i>
                                     {data?.commentCount}
-                                </span>
+                                </a>
                             </div>
                             <div className="fs-7 d-flex gap-2 py-2">
                                 <input type="text" className="form-control w-75" id="" placeholder="Write a comment" onChange={(e) => handleComment(e)} />
