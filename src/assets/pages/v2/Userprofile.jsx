@@ -19,6 +19,18 @@ const Userprofile = () => {
                 const fetched = data.data
                 setData(fetched)
                 console.log(fetched)
+                
+                setTimeout(() => {
+                    
+                    document.querySelectorAll('.placeholder').forEach((a) => {
+                        a.classList.remove('placeholder')
+                    })
+                    document.querySelectorAll('.placeholder-glow').forEach((a) => {
+                        a.classList.remove('placeholder-glow')
+                    })
+
+                }, 1000);
+                
                 const formdata = new FormData()
                 formdata.append('following_id', fetched.id)
                 axios.post('http://127.0.0.1:8000/api/follow/check', formdata, {
@@ -101,28 +113,28 @@ const Userprofile = () => {
     return (
         <>
             <Navbar />
-            <div className="col-10 col-lg-6 mx-auto mt-4 bg-light rounded-5 shadow-lg p-2 raleway">
+            <div className="col-10 col-lg-6 mx-auto mt-4 bg-light rounded-5 shadow-lg p-2 raleway placeholder-glow">
                 <section className='d-flex flex-column justify-content-center gap-2'>
                     <main className='d-flex gap-4 align-items-center p-2'>
-                        <img src={`http://127.0.0.1:8000/${data?.profile_image}`} alt="" className='small-profile-images rounded-circle d-none d-md-block' id='' />
+                        <img src={`http://127.0.0.1:8000/${data?.profile_image}`} alt="" className='small-profile-images rounded-circle d-none d-md-block placeholder' id='' />
                         <div className="d-flex flex-column d-md-none justify-content-center align-items-center gap-2">
-                            <img src={`http://127.0.0.1:8000/${data?.profile_image}`} alt="" className='small-profile-images rounded-circle' id='' />
+                            <img src={`http://127.0.0.1:8000/${data?.profile_image}`} alt="" className='small-profile-images rounded-circle placeholder' id='' />
                             {data?.id !== user?.id && (
-                                <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary'>
+                                <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary placeholder'>
                                     {isFollow ? 'Unfollow' : 'Follow'}
                                 </button>
                             )}
                         </div>
                         <div className=" d-md-flex gap-4">
                             <div className="flex-column justify-content-center d-none d-md-flex">
-                                <span className='fw-semibold m-0'>
+                                <span className='fw-semibold m-0 placeholder'>
                                     @{data?.username}
                                 </span>
-                                <span className='fw-light text-secondary'>
+                                <span className='fw-light text-secondary placeholder'>
                                     {data?.name}
                                 </span>
                                 {data?.id !== user?.id && (
-                                    <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary'>
+                                    <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary placeholder'>
                                         {isFollow ? 'Unfollow' : 'Follow'}
                                     </button>
                                 )}
@@ -132,7 +144,7 @@ const Userprofile = () => {
                                     </Link> */}
 
                             </div>
-                            <div className="d-md-none">
+                            <div className="d-md-none placeholder">
                                 <span className='fw-semibold m-0'>
                                     @{data?.username}
                                 </span>
@@ -141,7 +153,7 @@ const Userprofile = () => {
                                 </span>
                                 <br />
                             </div>
-                            <div className="d-flex gap-4 mt-2 align-items-center">
+                            <div className="d-flex gap-4 mt-2 align-items-center placeholder">
                                 <div className="text-start">
                                     <span className='fw-semibold'>{data?.postCount}</span>
                                     <p className='m-0 text-secondary fs-7'>Posts</p>
@@ -157,7 +169,7 @@ const Userprofile = () => {
                             </div>
                         </div>
                     </main>
-                    <div className="px-2 fs-7 d-md-none">
+                    <div className="px-2 fs-7 d-md-none placeholder">
                         {data?.bio}
                     </div>
                 </section>
@@ -166,7 +178,7 @@ const Userprofile = () => {
                         return (
                             <Link className='pt-2' key={d.id} to={`/post/${d.slug}`}>
                                 <div className=" overflow-hidden">
-                                    <img src={`http://127.0.0.1:8000/${d.image}`} alt="" className='rounded-4 post-image object-fit-cover w-100' />
+                                    <img src={`http://127.0.0.1:8000/${d.image}`} alt="" className='rounded-4 post-image object-fit-cover w-100 placeholder' />
                                 </div>
                             </Link>
                         )

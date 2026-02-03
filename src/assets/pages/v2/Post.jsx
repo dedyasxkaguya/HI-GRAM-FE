@@ -50,6 +50,17 @@ const Post = () => {
                         const checkLike = data.data
                         console.log(checkLike)
                         setLike(checkLike.status)
+
+                        setTimeout(() => {
+
+                            document.querySelectorAll('.placeholder').forEach((a) => {
+                                a.classList.remove('placeholder')
+                            })
+                            document.querySelectorAll('.placeholder-glow').forEach((a) => {
+                                a.classList.remove('placeholder-glow')
+                            })
+
+                        }, 1000);
                     })
                 const formdata = new FormData()
                 formdata.append('following_id', fetched.user.id)
@@ -229,6 +240,13 @@ const Post = () => {
         setCommentOpen(!isComment)
     }
     const handleLike = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Wait a second...',
+            text: 'Processing your request',
+            showConfirmButton: false,
+            toast: true
+        })
         axios.get(`http://127.0.0.1:8000/api/post/like/${data.id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -268,22 +286,22 @@ const Post = () => {
         <>
             <div className="overflow-x-hidden">
                 <Navbar />
-                <div className="row justify-content-center">
+                <div className="row justify-content-center placeholder-glow mt-4">
                     <div className='col-lg-5 col-10' key={data?.id}>
                         <div className=" overflow-hidden">
-                            <img src={`http://127.0.0.1:8000/${data?.image}`} alt="" className='rounded-4 post-image-single object-fit-cover my-2' />
+                            <img src={`http://127.0.0.1:8000/${data?.image}`} alt="" className='rounded-4 post-image-single object-fit-cover my-2 placeholder' />
                             {/* <div className="" style={{ backim }}></div> */}
                         </div>
                     </div>
-                    <div className="col-lg-4 col-10 bg-light rounded-4 my-2 d-flex flex-column justify-content-between">
+                    <div className="col-lg-4 col-10 bg-light rounded-4 my-2 d-flex flex-column justify-content-between74">
                         <div className="">
                             <div className="d-flex gap-2 align-items-center text-center px-2">
-                                <img src={`${isOnline ? `${data?.user?.profile_image}` : `http://127.0.0.1:8000/${data?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post object-fit-cover my-3' />
-                                <span className='fw-semibold'>@{data?.user?.username}</span>
+                                <img src={`${isOnline ? `${data?.user?.profile_image}` : `http://127.0.0.1:8000/${data?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post object-fit-cover my-3 placeholder' />
+                                <span className='fw-semibold placeholder'>@{data?.user?.username}</span>
                                 {data?.user?.id !== user?.id && (
                                     <>
                                         <i className="bi bi-circle-fill fs-10 fs-5"></i>
-                                        <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary'>
+                                        <button type='button' onClick={() => handleFollow()} className='btn btn-light text-decoration-none text-primary placeholder'>
                                             {isFollow ? 'Unfollow' : 'Follow'}
                                         </button>
                                     </>
@@ -291,10 +309,10 @@ const Post = () => {
                             </div>
                             <div className="comment-box-dekstop pb-2">
                                 <div className="p-2">
-                                    <img src={`http://127.0.0.1:8000/${data?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post-small me-2 object-fit-cover' />
-                                    <span className='fw-semibold'>@{data?.user?.username}</span>
-                                    <span className='fw-light fs-6'> {data?.caption}</span><br />
-                                    <span className='fw-light opacity-75 text-secondary fs-7'>{data?.formattedTime}</span>
+                                    <img src={`http://127.0.0.1:8000/${data?.user?.profile_image}`} alt="" className='rounded-circle profile-image-post-small me-2 object-fit-cover placeholder' />
+                                    <span className='fw-semibold placeholder'>@{data?.user?.username}</span>
+                                    <span className='fw-light fs-6 placeholder'> {data?.caption}</span><br />
+                                    <span className='fw-light opacity-75 text-secondary fs-7 placeholder'>{data?.formattedTime}</span>
                                 </div>
                             </div>
                             <div className="d-flex gap-2 flex-column p-2">
@@ -306,13 +324,15 @@ const Post = () => {
                                         i++
                                         return (
                                             <div className="d-flex align-items-center my-2">
-                                                <img src={`${isOnline ? `${c?.user?.profile_image}` : `http://127.0.0.1:8000/${c?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover' />
+                                                <img src={`${isOnline ? `${c?.user?.profile_image}` : `http://127.0.0.1:8000/${c?.user?.profile_image}`} `} alt="" className='rounded-circle profile-image-post me-2 object-fit-cover placeholder' />
                                                 <div className="m-0 d-flex flex-column">
-                                                    <Link className='fw-semibold lh-1 fs-7 text-decoration-none text-black' to={`/${c.user?.username}`}>@{c.user?.username}
-                                                        {data?.user?.username == c.user?.username ? <span className='text-secondary opacity-75'> Creator</span> : ''}
+                                                    <Link className='fw-semibold lh-1 fs-7 text-decoration-none text-black placeholder' to={`/${c.user?.username}`}>
+                                                        @{c.user?.username}
+                                                        {data?.user?.username == c.user?.username ?
+                                                            <span className='text-secondary opacity-75 placeholder'> Creator</span> : ''}
                                                     </Link>
-                                                    <span className='fw-light lh-base'>{c.comment}</span>
-                                                    <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1'>{c.formattedTime}</span>
+                                                    <span className='fw-light lh-base placeholder'>{c.comment}</span>
+                                                    <span className='fw-ultralight text-secondary fs-7 opacity-75 lh-1 placeholder'>{c.formattedTime}</span>
                                                 </div>
                                             </div>
                                         )
@@ -352,7 +372,7 @@ const Post = () => {
                             </section>
                         )}
                         <section>
-                            <div className="d-flex gap-2 fs-6 py-2">
+                            <div className="d-flex gap-2 fs-6 py-2 placeholder">
                                 <a className=' text-decoration-none text-black' style={{ cursor: 'pointer' }} onClick={() => handleLike()}>
                                     <i className={`bi me-2 ${isLike ? 'bi-heart-fill text-danger' : 'bi-heart'}`}></i>
                                     {data?.likeCount}

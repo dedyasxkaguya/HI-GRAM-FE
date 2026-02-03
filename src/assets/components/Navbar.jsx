@@ -18,7 +18,16 @@ const Navbar = () => {
                 .then(data => {
                     const fetch_user = data.data
                     setUser(fetch_user)
+                    document.querySelectorAll('nav .placeholder').forEach((a) => {
+                        a.classList.remove('placeholder')
+                    })
                 })
+        } else {
+            setTimeout(() => {
+                document.querySelectorAll('nav .placeholder').forEach((a) => {
+                    a.classList.remove('placeholder')
+                })
+            }, 1000);
         }
     }, [])
     const location = useLocation().pathname
@@ -81,7 +90,7 @@ const Navbar = () => {
                     )}
                     {!user && (
                         <div className="d-flex gap-2">
-                            <Link to={'/login'} className='btn btn-light shadow-sm'>Login</Link>
+                            <Link to={'/login'} className='btn btn-light shadow-sm placeholder'>Login</Link>
                         </div>
                     )}
                     {user && (

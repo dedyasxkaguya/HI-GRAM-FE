@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 // import '../css/post.css'
 const Followbase = ({ f, user }) => {
@@ -66,7 +67,7 @@ const Followbase = ({ f, user }) => {
         <div className="m-0 d-flex align-items-center flex-grow-1">
           <img src={`http://127.0.0.1:8000/${f?.profile_image}`} alt="" className='rounded-circle profile-image-follow me-2 object-fit-cover' />
           <div className="d-flex flex-column">
-            <span className='fw-semibold lh-1 fs-6'>@{f.username}</span>
+            <Link to={`/${f.username}`} className='fw-semibold lh-1 fs-6 text-black text-decoration-none'>@{f.username}</Link>
             <span className='fw-light lh-base'>{f.name}</span>
             {/* <small className='fw-light lh-base text-secondary fs-7'>{f.bio}</small> */}
             <small className='text-secondary text-truncate bio'>

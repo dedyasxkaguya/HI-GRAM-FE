@@ -8,7 +8,7 @@ import Search from './assets/pages/Search'
 import Trending from './assets/pages/Trending'
 import Profile from './assets/pages/v2/Profile'
 import Userfollow from './assets/pages/v2/Userfollow'
-import Create from './assets/pages/Create'
+import Create from './assets/pages/v2/Create'
 import Userprofile from './assets/pages/v2/Userprofile'
 import Update from './assets/pages/Update'
 const App = () => {

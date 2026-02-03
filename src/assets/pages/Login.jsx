@@ -55,8 +55,8 @@ const Login = () => {
     }
     return (
         <div className="h-100dvh d-flex justify-content-center align-items-center">
-            <div className='bg-light col-10 col-md-8 col-lg-4'>
-                <form action="" className='p-4 rounded-4 shadow-sm raleway'>
+            <div className='bg-light col-10 col-md-8 col-lg-4 rounded-4 shadow'>
+                <form action="" className='p-4 raleway'>
                     <h2>Hello !</h2>
                     <p className='fw-light'>Login to access features</p>
                     <div className="input-group has-validation">
@@ -73,7 +73,7 @@ const Login = () => {
                             </div>
                         )}
                     </div>
-                    <div className={`form-floating mb-2`}>
+                    <div className={`form-floating mb-4`}>
                         <input type="text" className={`form-control`} id="password"
                             placeholder="Username" required />
                         <label htmlFor="floatingInputGroup3">
