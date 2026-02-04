@@ -5,12 +5,13 @@ import Post from './assets/pages/v2/Post'
 import Login from './assets/pages/Login'
 import Register from './assets/pages/Register'
 import Search from './assets/pages/Search'
-import Trending from './assets/pages/Trending'
+import Trending from './assets/pages/v2/Trending'
 import Profile from './assets/pages/v2/Profile'
 import Userfollow from './assets/pages/v2/Userfollow'
 import Create from './assets/pages/v2/Create'
 import Userprofile from './assets/pages/v2/Userprofile'
 import Update from './assets/pages/Update'
+import Following from './assets/pages/Following'
 const App = () => {
   return (
     <Routes>
@@ -21,6 +22,7 @@ const App = () => {
       <Route path='/update' element={<Update/>}></Route>
       <Route path='/create' element={<Create/>}></Route>
       <Route path='/profile/follow' element={<Userfollow/>}></Route>
+      <Route path='/following' element={<Following/>}></Route>
       {/* <Route path='/profile/:type' element={<Userfollow/>}></Route> */}
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>

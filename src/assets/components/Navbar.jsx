@@ -110,7 +110,7 @@ const Navbar = () => {
                                     <i className='bi bi-search me-2'></i>
                                     Search
                                 </Link>
-                                <Link to={'/'} className='text-decoration-none btn btn-link'>
+                                <Link to={'/following'} className='text-decoration-none btn btn-link'>
                                     <i className='bi bi-patch-check-fill me-2'></i>
                                     Following
                                 </Link>

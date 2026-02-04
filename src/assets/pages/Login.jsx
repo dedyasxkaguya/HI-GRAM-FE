@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/home.css'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +6,14 @@ import Swal from 'sweetalert2';
 const Login = () => {
     const [isUserValid, setUserValid] = useState(true)
     // const [isUserValid, setUserValid] = useState(true)
+    const token = localStorage.getItem('token')
+    useEffect(()=>{
+        setTimeout(() => {
+            if(token.includes('|')){
+                location.href='/home'
+            }
+        }, 1000);
+    },[])
     setTimeout(() => {
         setUserValid(true)
     }, 2000);
